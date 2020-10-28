@@ -11,8 +11,17 @@ public class Lightsaber : MonoBehaviour
     private bool Saved = true;
     private bool Completed = true;
 
+    private float LightIntensity;
+
+    private void Awake()
+    {
+        LightIntensity = Light.intensity;
+    }
+
     private IEnumerator ScaleBlade()
     {
+        if (Saved) Blade.gameObject.SetActive(true);
+
         Completed = false;
         while ((Blade.localScale.x != 1.0f && Saved) || (Blade.localScale.x != 0.0f && !Saved))
         {
@@ -27,6 +36,8 @@ public class Lightsaber : MonoBehaviour
 
             yield return null;
         }
+
+        if (!Saved) Blade.gameObject.SetActive(false);
 
         Completed = true;
         Saved = !Saved;
@@ -45,5 +56,8 @@ public class Lightsaber : MonoBehaviour
             Light.enabled = Saved;
             StartCoroutine(ScaleBlade());
         }
+
+        // Light Blinking
+        Light.intensity = LightIntensity + 0.1f * Mathf.Abs(Mathf.Sin(20.0f * Time.time));
     }
 }
