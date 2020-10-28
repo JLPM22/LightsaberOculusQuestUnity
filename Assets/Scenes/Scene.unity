@@ -334,11 +334,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Height: 0.85
-  MinDistance: 0.01
-  TimeTransitionSpeed: 0.5
-  StartTime: 0.1
+  MinDistance: 0.001
+  TimeTransitionSpeed: 0
+  StartTime: 0.05
   DesiredTime: 0.005
-  VelocityThreshold: 0.001
+  VelocityThreshold: 0.0015
+  EndVelocityThreshold: 0.0001
 --- !u!33 &690226395
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -672,6 +673,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 677101557, guid: a580749c2ae9d8f4eb22012a702040d1, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 690226393, guid: a580749c2ae9d8f4eb22012a702040d1, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0

@@ -12,6 +12,7 @@ public class LightsaberTrail : MonoBehaviour
     public float StartTime = 10.0f;
     public float DesiredTime = 2.0f;
     public float VelocityThreshold = 0.0f;
+    public float EndVelocityThreshold = 0.0f;
 
     private Vector3 LastPosition;
     private Vector3 LastPositionVelocity;
@@ -19,6 +20,7 @@ public class LightsaberTrail : MonoBehaviour
     private TrailSection LastTrailSection;
     private bool LastTrailUsed = false;
     private bool OneTrailMore = false;
+    private float InternalVelocityThreshold = 0.0f;
 
     private Mesh Mesh;
     private Vector3[] Vertices;
@@ -50,7 +52,7 @@ public class LightsaberTrail : MonoBehaviour
         Vector3 position = transform.position;
         float now = UnityEngine.Time.time;
 
-        if ((transform.position - LastPositionVelocity).sqrMagnitude < VelocityThreshold)
+        if ((position - LastPositionVelocity).sqrMagnitude < InternalVelocityThreshold)
         {
             Time = StartTime;
             LastTrailSection = new TrailSection
@@ -75,12 +77,17 @@ public class LightsaberTrail : MonoBehaviour
                 LastPosition = section.Position;
                 OneTrailMore = false;
             }
+            if (!OneTrailMore)
+            {
+                InternalVelocityThreshold = VelocityThreshold;
+            }
 
             return;
         }
 
         if (Sections.Count == 0 || (LastPosition - position).sqrMagnitude > MinDistance * MinDistance)
         {
+            InternalVelocityThreshold = EndVelocityThreshold;
             if (!LastTrailUsed)
                 Sections.Enqueue(LastTrailSection);
             LastTrailUsed = true;
