@@ -13,6 +13,9 @@ public class LightsaberTrail : MonoBehaviour
     public float DesiredTime = 2.0f;
     public float VelocityThreshold = 0.0f;
     public float EndVelocityThreshold = 0.0f;
+    [Header("Sounds")]
+    public AudioClip Swing1;
+    public AudioClip Swing2;
 
     private Vector3 LastPosition;
     private Vector3 LastPositionVelocity;
@@ -27,6 +30,7 @@ public class LightsaberTrail : MonoBehaviour
 
     private MeshRenderer MeshRenderer;
     private Material TrailMaterial;
+    private AudioSource AudioSource;
 
     private Queue<TrailSection> Sections = new Queue<TrailSection>();
 
@@ -36,6 +40,7 @@ public class LightsaberTrail : MonoBehaviour
         Mesh = meshF.mesh;
         MeshRenderer = GetComponent<MeshRenderer>();
         TrailMaterial = MeshRenderer.material;
+        AudioSource = GetComponentInParent<AudioSource>();
     }
 
     private void Update()
@@ -88,6 +93,7 @@ public class LightsaberTrail : MonoBehaviour
         if (Sections.Count == 0 || (LastPosition - position).sqrMagnitude > MinDistance * MinDistance)
         {
             InternalVelocityThreshold = EndVelocityThreshold;
+            if (Sections.Count == 0) AudioSource.PlayOneShot(Random.Range(0.0f, 1.0f) < 0.5f ? Swing1 : Swing2);
             if (!LastTrailUsed)
                 Sections.Enqueue(LastTrailSection);
             LastTrailUsed = true;

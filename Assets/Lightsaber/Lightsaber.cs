@@ -7,20 +7,37 @@ public class Lightsaber : MonoBehaviour
     public Transform Blade;
     public Light Light;
     public float Speed = 1.0f;
+    [Header("Sounds")]
+    public AudioClip Idle;
+    public AudioClip PowerUp;
+    public AudioClip PowerDown;
 
     private bool Saved = true;
     private bool Completed = true;
-
     private float LightIntensity;
+
+    private AudioSource AudioSource;
 
     private void Awake()
     {
         LightIntensity = Light.intensity;
+        AudioSource = GetComponent<AudioSource>();
+        AudioSource.clip = Idle;
+        AudioSource.loop = true;
     }
 
     private IEnumerator ScaleBlade()
     {
-        if (Saved) Blade.gameObject.SetActive(true);
+        if (Saved)
+        {
+            Blade.gameObject.SetActive(true);
+            AudioSource.PlayOneShot(PowerUp);
+        }
+        else
+        {
+            AudioSource.Stop();
+            AudioSource.PlayOneShot(PowerDown);
+        }
 
         Completed = false;
         while ((Blade.localScale.x != 1.0f && Saved) || (Blade.localScale.x != 0.0f && !Saved))
@@ -38,6 +55,7 @@ public class Lightsaber : MonoBehaviour
         }
 
         if (!Saved) Blade.gameObject.SetActive(false);
+        else AudioSource.Play();
 
         Completed = true;
         Saved = !Saved;
