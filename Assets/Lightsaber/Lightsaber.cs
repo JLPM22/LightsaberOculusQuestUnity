@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using OculusModules.Grab;
 
 public class Lightsaber : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Lightsaber : MonoBehaviour
     private float LightIntensity;
 
     private AudioSource AudioSource;
+    private Grabbable Grabbable;
 
     private void Awake()
     {
@@ -24,6 +26,7 @@ public class Lightsaber : MonoBehaviour
         AudioSource = GetComponent<AudioSource>();
         AudioSource.clip = Idle;
         AudioSource.loop = true;
+        Grabbable = GetComponent<Grabbable>();
     }
 
     private IEnumerator ScaleBlade()
@@ -63,6 +66,8 @@ public class Lightsaber : MonoBehaviour
 
     private void Update()
     {
+        if (!Grabbable.IsGrabbed) return;
+
         /*
          OVRInput.Button.One = A
          OVRInput.Button.Two = B

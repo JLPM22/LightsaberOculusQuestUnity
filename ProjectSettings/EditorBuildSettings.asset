@@ -8,6 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 0
+    path: Assets/Scenes/DarkSideScene.unity
+    guid: 75a8228cce7ceee4392b0bdaa09506b2
+  - enabled: 1
+    path: Assets/Scenes/LightSideScene.unity
+    guid: 00970686d5c387140a2cbce6cb22f5ad
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: d843387e4c0082e4cac669d51d7129e6,
       type: 2}
